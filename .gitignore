@@ -1,0 +1,23 @@
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Godot 4+ specific ignores
+.godot/
+
+# Mono-specific ignores
+.mono/
+data_*/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Server dependencies
+server/vendor/
+server/.env
+
+# IDE
+.vscode/
+.idea/

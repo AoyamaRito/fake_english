@@ -1,0 +1,247 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgrna88u3x5g7"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_f8xut"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_f8xut")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DialogueLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+text = "Hi! あら失礼、つい英語をしゃべってしまいましたわ。あなた、英語はお出来になって？"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="InputBox" type="LineEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+placeholder_text = "何か1語入力して"
+alignment = 1
+editable = false
+
+[node name="TimerLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Time: 10"
+horizontal_alignment = 1
+
+[node name="Keyboard" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Row1" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonQ" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Q"
+
+[node name="ButtonW" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "W"
+
+[node name="ButtonE" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "E"
+
+[node name="ButtonR" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "R"
+
+[node name="ButtonT" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "T"
+
+[node name="ButtonY" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Y"
+
+[node name="ButtonU" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "U"
+
+[node name="ButtonI" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "I"
+
+[node name="ButtonO" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "O"
+
+[node name="ButtonP" type="Button" parent="VBoxContainer/Keyboard/Row1"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "P"
+
+[node name="Row2" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonA" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "A"
+
+[node name="ButtonS" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "S"
+
+[node name="ButtonD" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "D"
+
+[node name="ButtonF" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "F"
+
+[node name="ButtonG" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "G"
+
+[node name="ButtonH" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "H"
+
+[node name="ButtonJ" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "J"
+
+[node name="ButtonK" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "K"
+
+[node name="ButtonL" type="Button" parent="VBoxContainer/Keyboard/Row2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "L"
+
+[node name="Row3" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonZ" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Z"
+
+[node name="ButtonX" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "X"
+
+[node name="ButtonC" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "C"
+
+[node name="ButtonV" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "V"
+
+[node name="ButtonB" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "B"
+
+[node name="ButtonN" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "N"
+
+[node name="ButtonM" type="Button" parent="VBoxContainer/Keyboard/Row3"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "M"
+
+[node name="ActionButtons" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonSpace" type="Button" parent="VBoxContainer/Keyboard/ActionButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "Space"
+
+[node name="ButtonApostrophe" type="Button" parent="VBoxContainer/Keyboard/ActionButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "'"
+
+[node name="ButtonDelete" type="Button" parent="VBoxContainer/Keyboard/ActionButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Delete"
+
+[node name="ButtonSubmit" type="Button" parent="VBoxContainer/Keyboard/ActionButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Submit"
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="NextTurnTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
