@@ -13,19 +13,32 @@ import (
 	"google.golang.org/api/option"
 )
 
-// --- Structs for /validate (single word) ---
+// --- Structs for /validate (natural language input) ---
 type validationRequest struct {
-	Word string `json:"word"`
+	Sentence     string `json:"sentence"`
+	WordCount    int    `json:"word_count"`
+	RequiredWord string `json:"required_word,omitempty"`
 }
 type validationResponse struct {
-	Valid bool   `json:"valid"`
-	Error string `json:"error,omitempty"`
+	Valid      bool   `json:"valid"`
+	Comment    string `json:"comment"`
+	NextPrompt string `json:"next_prompt,omitempty"`
+	Error      string `json:"error,omitempty"`
 }
 
 // --- Structs for /get-challenge ---
 type challengeResponse struct {
 	Challenge string `json:"challenge"`
 	Error     string `json:"error,omitempty"`
+}
+
+// --- Structs for /get-prompt ---
+type promptRequest struct {
+	WordCount int `json:"word_count"`
+}
+type promptResponse struct {
+	Prompt string `json:"prompt"`
+	Error  string `json:"error,omitempty"`
 }
 
 // --- Structs for /validate-sentence ---
@@ -42,6 +55,7 @@ func main() {
 	http.HandleFunc("/validate", validateHandler)
 	http.HandleFunc("/get-challenge", challengeHandler)
 	http.HandleFunc("/validate-sentence", validateSentenceHandler)
+	http.HandleFunc("/get-prompt", promptHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -79,7 +93,13 @@ func generateGeminiContent(ctx context.Context, model *genai.GenerativeModel, pr
 	}
 	if len(resp.Candidates) > 0 && len(resp.Candidates[0].Content.Parts) > 0 {
 		if txt, ok := resp.Candidates[0].Content.Parts[0].(genai.Text); ok {
-			return strings.TrimSpace(string(txt)), nil
+			response := strings.TrimSpace(string(txt))
+			// Clean up the response to ensure it's valid JSON
+			// Remove any markdown code blocks if present
+			response = strings.TrimPrefix(response, "```json")
+			response = strings.TrimSuffix(response, "```")
+			response = strings.TrimSpace(response)
+			return response, nil
 		}
 	}
 	return "", fmt.Errorf("empty or invalid response from Gemini")
@@ -147,6 +167,15 @@ func validateSentenceHandler(w http.ResponseWriter, r *http.Request) {
 
 func validateHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST method is allowed", http.StatusMethodNotAllowed)
 		return
@@ -166,14 +195,81 @@ func validateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	prompt := fmt.Sprintf("Is the following an actual, single, common English word? Answer with only 'yes' or 'no'. Word: %s", req.Word)
+	requiredWordPrompt := ""
+	if req.RequiredWord != "" {
+		requiredWordPrompt = fmt.Sprintf("\nRequired word to use: %s", req.RequiredWord)
+	}
+
+	prompt := fmt.Sprintf(`You are Rin (凛), a haughty aristocratic young lady who looks down on commoners' poor English skills.
+
+Task: Evaluate this English input from a commoner
+Required word count: %d
+Input: "%s"%s
+
+Rules:
+1. Check if it has EXACTLY %d words (count carefully! Count the actual words they wrote)
+2. Check if it's grammatically correct English (identify specific errors if any)
+3. If the previous prompt mentioned a specific word to use (like "happyという単語を使って"), check if they used it (case-insensitive)
+4. All conditions must be true for valid=true
+5. IMPORTANT: Ignore capitalization errors - treat "i love cats" the same as "I love cats"
+
+When evaluating, identify:
+- The actual word count (not what they intended)
+- Any grammar mistakes (be specific: wrong verb form, missing articles, etc.) BUT NOT capitalization
+- Whether required words are missing (check case-insensitively)
+
+Respond with ONLY this JSON format:
+{"valid": true/false, "comment": "your comment", "next_prompt": "next challenge prompt"}
+
+For comments, speak as Rin in Japanese:
+- If valid: Reluctantly acknowledge but still be condescending (e.g. "ふん、偶然でしょうけど...今回は認めてあげるわ。")
+- If wrong word count: Tell them the exact count and mock them (e.g. "それ、5語じゃなくて3語ですわよ。数も数えられないの？")
+- If bad grammar: Point out the specific error and mock them (e.g. "「I likes」じゃなくて「I like」ですわ。基本的な動詞活用もできないの？")
+- If missing required word: Point it out (e.g. "「happy」を使えって言ったでしょう？聞いてなかったの？")
+- NOTE: Don't comment on capitalization - "i am happy" is fine, just as good as "I am happy"
+
+For next_prompt (ONLY if valid=true and word count < 7):
+- Give the next challenge in Rin's condescending tone in Japanese
+- Choose any word count between 3-7 (be creative and unpredictable!)
+- Include a simple English word they must use (like: cat, dog, happy, good, like, want, eat, go, big, small)
+- Include the exact number in your prompt
+- Examples: 
+  "ふん、では次は5語で「happy」という単語を使って話してみなさい。"
+  "3語なんて簡単すぎたわね。じゃあ6語で「like」を使ってみなさい。"
+  "まぐれね。次は4語で「cat」を使って文を作りなさい。できるかしら？"
+- If word count >= 7, set next_prompt to empty string
+
+Be creative and vary the word counts!`, req.WordCount, req.Sentence, requiredWordPrompt, req.WordCount, req.WordCount)
+	
 	response, err := generateGeminiContent(ctx, model, prompt)
 	if err != nil {
-		log.Printf("Failed to validate word: %v", err)
-		json.NewEncoder(w).Encode(validationResponse{Valid: false, Error: "Error processing word validation"})
+		log.Printf("Failed to validate: %v", err)
+		json.NewEncoder(w).Encode(validationResponse{Valid: false, Comment: "サーバーの調子が悪いようね。もう一度試しなさい。"})
 		return
 	}
 
-	isValid := strings.ToLower(response) == "yes"
-	json.NewEncoder(w).Encode(validationResponse{Valid: isValid})
+	// Log the raw response for debugging
+	log.Printf("Gemini response: %s", response)
+	
+	// Parse JSON response
+	var result validationResponse
+	if err := json.Unmarshal([]byte(response), &result); err != nil {
+		log.Printf("Failed to parse response: %v, raw response: %s", err, response)
+		json.NewEncoder(w).Encode(validationResponse{Valid: false, Comment: "なんだか変な応答が返ってきたわ。もう一度やり直しなさい。"})
+		return
+	}
+
+	// Ensure comment is not empty
+	if result.Comment == "" {
+		if result.Valid {
+			result.Comment = "ふむ...なかなかやりますわね。"
+		} else {
+			result.Comment = "あら、その英語おかしいですわよ。"
+		}
+	}
+	
+	// Log the final response
+	log.Printf("Sending response: %+v", result)
+
+	json.NewEncoder(w).Encode(result)
 }

@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxqjpn8xfvw5o"]
+
+[ext_resource type="Script" path="res://scripts/result.gd" id="1_rw4ut"]
+
+[node name="Result" type="Node"]
+script = ExtResource("1_rw4ut")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ResultLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "お疲れ様でしたわ..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "もう一度"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

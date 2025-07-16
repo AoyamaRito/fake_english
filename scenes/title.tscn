@@ -1,0 +1,95 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx8kc4ydnswkp"]
+
+[ext_resource type="Script" path="res://scripts/title.gd" id="1_ky8xt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.4, 0.2, 0.6, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
+bg_color = Color(0.5, 0.3, 0.7, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3"]
+bg_color = Color(0.35, 0.15, 0.55, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[node name="Title" type="Node"]
+script = ExtResource("1_ky8xt")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.95, 0.94, 0.98, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 80
+alignment = 1
+
+[node name="TitleSection" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="GameTitle" type="Label" parent="VBoxContainer/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.3, 1)
+theme_override_font_sizes/font_size = 64
+text = "ふふ、それで
+英語のつもりですの？"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Subtitle" type="Label" parent="VBoxContainer/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.3, 0.5, 1)
+theme_override_font_sizes/font_size = 32
+text = "〜 凛お嬢様の英語力チェック 〜"
+horizontal_alignment = 1
+
+[node name="DescriptionSection" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(800, 0)
+
+[node name="RinIntro" type="Label" parent="VBoxContainer/DescriptionSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.2, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "「あら、庶民のあなたも英語を話せるのかしら？
+まあ、期待はしていませんけれど...
+せいぜい頑張ってみせてくださる？」"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(500, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.9, 0.85, 0.8, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3")
+text = "俺の英語力を
+見せつける"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

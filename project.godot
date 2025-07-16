@@ -12,9 +12,13 @@ config_version=5
 
 config/name="ふふ、それで英語のつもりですの？"
 config/description="AIお嬢様が人間の庶民が英語を話せるか高みから見守る会話ゲーム"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/title.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*res://scripts/game_manager.gd"
 
 [display]
 
